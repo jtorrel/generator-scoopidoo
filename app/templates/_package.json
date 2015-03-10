@@ -1,7 +1,7 @@
 {
-    "name": "generator-scoopidoo",
+    "name": "<%= appName %>",
     "version": "0.0.0",
-    "description": "Scoopidoo service generator",
+    "description": "Scoopidoo service",
     "main": "app/<%= appName %>.js",
     "author": {
         "name": "<%= appAuthor %>"
