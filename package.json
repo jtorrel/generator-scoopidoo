@@ -1,7 +1,7 @@
 {
   "name": "generator-scoopidoo",
-  "version": "0.0.0",
-  "description": "Yeoman generator",
+  "version": "0.0.2",
+  "description": "Scoopidoo generator",
   "license": "MIT",
   "main": "app/index.js",
   "repository": "jtorrel/generator-scoopidoo",
@@ -26,7 +26,8 @@
     "yeoman-generator": "^0.18.9",
     "chalk": "^1.0.0",
     "yosay": "^1.0.2",
-    "slug": "~0.8.0"
+    "slug": "~0.8.0",
+    "rabbit.js": "~0.3.0"
   },
   "devDependencies": {
     "mocha": "*"

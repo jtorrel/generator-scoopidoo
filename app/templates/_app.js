@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-var config = require('./config');
+var config = require("./config");
 
 // Context
-var context = require('rabbit.js').createContext(config.queueSocket);
+var context = require("rabbit.js").createContext(config.queueSocket);
 console.log(" [x] Created context %s", config.queueSocket);
 
 context.on("ready", function() {

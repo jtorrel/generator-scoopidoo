@@ -10,10 +10,13 @@
         "start": "node app/<%= appName %>.js",
         "test": "node_modules/.bin/mocha -w"
     },
+    "dependencies": {
+        "rabbit.js": "~0.3.0"
+    },
     "devDependencies": {
         "mocha": "~2.2.0",
-        "chai" : "~1.6.1",
-        "chai-fs" : "~0.1.0"
+        "chai": "~1.6.1",
+        "chai-fs": "~0.1.0"
     },
     "private": true
 }
