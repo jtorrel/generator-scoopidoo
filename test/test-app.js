@@ -18,10 +18,7 @@ describe('scoopidoo:app', function () {
 
   it('creates files', function () {
     assert.file([
-      'bower.json',
-      'package.json',
-      '.editorconfig',
-      '.jshintrc'
+      'package.json'
     ]);
   });
 });
