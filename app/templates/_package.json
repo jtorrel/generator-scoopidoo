@@ -1,0 +1,19 @@
+{
+    "name": "generator-scoopidoo",
+    "version": "0.0.0",
+    "description": "Scoopidoo service generator",
+    "main": "app/<%= appName %>.js",
+    "author": {
+        "name": "<%= appAuthor %>"
+    },
+    "scripts": {
+        "start": "node app/<%= appName %>.js",
+        "test": "node_modules/.bin/mocha -w"
+    },
+    "devDependencies": {
+        "mocha": "~2.2.0",
+        "chai" : "~1.6.1",
+        "chai-fs" : "~0.1.0"
+    },
+    "private": true
+}
