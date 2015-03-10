@@ -10,49 +10,96 @@ var ScoopidooGenerator = yeoman.generators.Base.extend({
 
         var prompts = [{
             name: 'appName',
-            message: 'What is the name of the service ?',
+            message: 'What is the name of the service ?\n(It will be slugify)',
             default: process.cwd().split(path.sep).pop()
         }, {
             name: 'appAuthor',
-            message: 'What is your name ?'
+            message: 'What is your name ?',
+            store: true
         }, {
-            type: 'confirm',
-            name: 'addAngular',
-            message: 'Would you like to create an Angular directory ?',
+            type: 'list',
+            choices: [{
+                name: 'PUB',
+                value = 'PUB'
+            }, {
+                name: 'SUB',
+                value = 'SUB'
+            }, {
+                name: 'PUSH',
+                value = 'PUSH'
+            }, {
+                name: 'PULL',
+                value = 'PULL'
+            }, {
+                name: 'REQ',
+                value = 'REQ'
+            }, {
+                name: 'REP',
+                value = 'REP'
+            }, {
+                name: 'WORKER',
+                value = 'WORKER'
+            }],
+            name: 'rabbitType',
+            message: 'What kind of socket type do you want to join ?',
             default: true
+        }, {
+            name: 'queueSocket',
+            message: 'What is the address of the AMPQ server ?',
+            store: true,
+            default: 'amqp://localhost'
+        }, {
+            name: 'queueName',
+            message: 'What is the name of the queue to join ?',
+            store: true,
+            default: 'scoopi_test'
         }];
 
         this.prompt(prompts, function(props) {
             this.appName = slug(props.appName.toLowerCase());
             this.appAuthor = props.appAuthor;
-            this.addAngular = props.addAngular;
-
+            this.queueSocket = props.queueSocket;
+            this.queueName = props.queueName;
+            this.rabbitType = props.rabbitType;
             done();
         }.bind(this));
     },
 
-    scaffoldFolders: function() {
-        this.mkdir("app");
-        this.mkdir("test");
+    createFolders: function() {
+        this.mkdir('app');
+        this.mkdir('test');
     },
 
-    copyMainFiles: function() {
-        this.writeFileFromString("'use strict';\n\nvar config = require('./config');", "app/" + this.appName + ".js");
-        this.writeFileFromString(this.read("_mocha.opts"), "test/mocha.opts");
+    copyFiles: function() {
+        // Mocha config file
+        this.writeFileFromString(this.read('mocha.opts'), 'test/mocha.opts');
 
-        var config = this._.template(this.read("_tests.js"));
-        this.writeFileFromString(config(this), "test/tests.js");
-        var config = this._.template(this.read("_config.js"));
-        this.writeFileFromString(config(this), "app/config.js");
-        var pkg = this._.template(this.read("_package.json"));
-        this.writeFileFromString(pkg(this), "package.json");
+        // App main file
+        var app = this._.template(this.read('_app.js'));
+        this.writeFileFromString(app(this), 'app/' + this.appName + '.js');
+
+        // Test file
+        var test = this._.template(this.read('_tests.js'));
+        this.writeFileFromString(test(this), 'test/tests.js');
+
+        // App config file
+        var config = this._.template(this.read('_config.js'));
+        this.writeFileFromString(config(this), 'app/config.js');
+
+        // Global config file
+        var pkg = this._.template(this.read('_package.json'));
+        this.writeFileFromString(pkg(this), 'package.json');
     },
 
-    generateAngularDirectory: function() {
-        if (this.addAngular) {
-            console.log("Todo : create angular directory !");
-        }
+    installing: function() {
+        exec('npm install', function(err) {
+            if (err) {
+                console.log(clc.yellowBright("Error occurred. You may need administrator privileges to install the module."));
+                console.log(clc.redBright("Try to run : sudo npm install");
+            }
+        });
     }
 });
 
+// Export
 module.exports = ScoopidooGenerator;
